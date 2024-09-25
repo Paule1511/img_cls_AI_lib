@@ -8,4 +8,6 @@ private:
 public:
 	Model(int opt_width, int opt_height, int color_depth);
 	void printModel();
+	float* evaluate();
+	int predict();
 };
