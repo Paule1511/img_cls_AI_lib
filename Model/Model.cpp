@@ -10,6 +10,6 @@ Model::Model(int opt_width, int opt_height, int color_depth) {
 }
 
 void Model::printModel() {
-	cout << "ZU IMPLEMENTIEREN!!!" << endl;
+	cout << "\033[31mZU IMPLEMENTIEREN!!!\033[0m" << endl;
 	//Model aufbau anzeigen (gewicht zahl, opt_width, opt_height)
 }
