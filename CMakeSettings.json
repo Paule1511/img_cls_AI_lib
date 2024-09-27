@@ -9,7 +9,14 @@
       "installRoot": "${projectDir}\\out\\install\\${name}",
       "cmakeCommandArgs": "",
       "buildCommandArgs": "",
-      "ctestCommandArgs": ""
+      "ctestCommandArgs": "",
+      "variables": [
+        {
+          "name": "OpenCV_DIR",
+          "value": "D:/Programme/opencv",
+          "type": "PATH"
+        }
+      ]
     }
   ]
 }
