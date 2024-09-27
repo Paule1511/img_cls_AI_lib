@@ -3,14 +3,17 @@
 #include <string>
 
 class Image {
-public:
-	uchar* pixels;
 	char channels;
 	int width;
 	int heigth;
+public:
+	uchar* pixels;
 	Image(std::string filePath);
 
-	void print();
+	int getWidth();
+	int getHeigth();
+	int getChannels();
+	void extractChannel(int channel, uchar** outArray);
 	void RGB2Gray();
 	void BGR2Gray();
 };
