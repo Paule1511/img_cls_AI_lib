@@ -4,7 +4,7 @@
 #include <opencv2/opencv.hpp>
 #include <algorithm>
 #include <iostream>
-#include "Debug.h"
+#include "../Utils/Debug.h"
 
 Image::Image(std::string filePath) {
 	cv::Mat cvImg = cv::imread(filePath);
@@ -18,14 +18,14 @@ Image::Image(std::string filePath) {
 
 void Image::RGB2Gray() {
 	uchar* newArray = (uchar*)malloc(width * heigth);
-	for (int j = 0; j < width * heigth; j++) {
-		uchar* pixel = &pixels[j * 3];
+	for (int i = 0; i < width * heigth; i++) {
+		uchar* pixel = &pixels[i * 3];
 		uchar newPixel =
 			static_cast<uchar>(pixel[0] * 0.299) +
 			static_cast<uchar>(pixel[1] * 0.587) +
 			static_cast<uchar>(pixel[2] * 0.114);
 
-		newArray[j] = newPixel;
+		newArray[i] = newPixel;
 	}
 	pixels = newArray;
 	channels = 1;
@@ -33,28 +33,55 @@ void Image::RGB2Gray() {
 
 void Image::extractChannel(int channel, uchar** outArray) {
 	uchar* newArray = (uchar*)malloc(width * heigth);
-	for (int j = 0; j < width * heigth; j++) {
-		uchar* pixel = &pixels[j * 3];
-		newArray[j] = pixel[channel];
+	for (int i = 0; i < width * heigth; i++) {
+		uchar* pixel = &pixels[i * 3];
+		newArray[i] = pixel[channel];
 	}
 	*outArray = newArray;
 }
 
 void Image::BGR2Gray() {
 	uchar* newArray = (uchar*)malloc(width * heigth);
-	for (int j = 0; j < width*heigth; j++) {
-		uchar* pixel = &pixels[j*3];
+	for (int i = 0; i < width*heigth; i++) {
+		uchar* pixel = &pixels[i*3];
 		uchar newPixel =
 			static_cast<uchar>(pixel[2] * 0.299) +
 			static_cast<uchar>(pixel[1] * 0.587) +
 			static_cast<uchar>(pixel[0]* 0.114);
 
-		newArray[j] = newPixel;
+		newArray[i] = newPixel;
 	}
 	pixels = newArray;
 	channels = 1;
 }
 
+void copyPixel(uchar* pixelIn, uchar* pixelOut, int channels) {
+	for (int i = 0; i < channels; i++) {
+		pixelOut[i] = pixelIn[i];
+	}
+}
+
+void Image::rescale(int new_width, int new_heigth) {
+	uchar* pixelRescaled = (uchar*)malloc(new_width * new_heigth * channels);
+	new_width = new_width > 0 ? new_width : 1;
+	new_heigth = new_heigth > 0 ? new_heigth : 1;
+
+	float widthFactor = (float)width / new_width;
+	float heigthFactor = (float)heigth / new_heigth;
+
+
+	for (int i = 0; i < new_heigth; i++) {
+		uchar* row = &pixels[(int)(i*heigthFactor)*width*channels];
+		for (int j = 0; j < new_width; j++) {
+			uchar* originalPixel = &row[(int)(j * widthFactor)*channels];
+			uchar* newPixel = &pixelRescaled[((i * new_width) + j)*channels];
+			copyPixel(originalPixel, newPixel, channels);
+		}
+	}
+	width = new_width;
+	heigth = new_heigth;
+	pixels = pixelRescaled;
+}
 
 int Image::getWidth() {
 	return width;

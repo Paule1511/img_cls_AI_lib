@@ -17,7 +17,7 @@ add_executable(image_ai "main.cpp"
 	"Model/Model.h" "Model/Model.cpp" 
 	"Model/Layer.h" "Model/Layer.cpp" 
 	"Utils/Debug.h" "Utils/Debug.cpp"  
-	"Utils/Image.h" "Utils/Image.cpp"
+	"Model/Image.h" "Model/Image.cpp"
 )
 
 

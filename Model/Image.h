@@ -2,11 +2,13 @@
 #include <opencv2/opencv.hpp>
 #include <string>
 
+void copyPixel(uchar* pixelIn, uchar* pixelOut, int channels);
+
 class Image {
+public:
 	char channels;
 	int width;
 	int heigth;
-public:
 	uchar* pixels;
 	Image(std::string filePath);
 
@@ -16,4 +18,5 @@ public:
 	void extractChannel(int channel, uchar** outArray);
 	void RGB2Gray();
 	void BGR2Gray();
+	void rescale(int new_width, int new_heigth);
 };

@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Image.h"
 class Model {
 private:
 	int opt_width;
@@ -10,4 +10,6 @@ public:
 	void printModel();
 	float* evaluate();
 	int predict();
+	void preprocess(Image* img);
+	void preprocess(uchar** pixelData);
 };
